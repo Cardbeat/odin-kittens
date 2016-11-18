@@ -1,0 +1,6 @@
+<% form_for @kittens do | f | %>
+<h2><%= f.name %></h2>
+<p>age: <%= f.input :age %> </p>
+<p>cuteness: <%= f.input :cuteness %> </p>
+<p>softness: <%= f.input :softness %> </p>
+<%= f.button :submit, 'salvar' %>
