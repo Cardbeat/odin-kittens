@@ -1,4 +1,9 @@
 <h2> All the cats here</h2>
-<% form_for @kittens do |f| %>
-<p><%= f.label :name %></p>
+<% @kittens.each do |k| %>
+<h2><%= k.name %></h2>
+<span>
+<%= link_to "Edit Kitten", edit_kitten_path(k.id) %>
+<%= link_to "Destroy Kitten", kitten_path(k.id), method: 'delete' %>
 <% end %>
+</span>
+<%= link_to('New Kitten', new_kitten_path, class: "btn btn-info btn-sm") %>

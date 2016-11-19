@@ -1,19 +1,22 @@
 class KittensController < ApplicationController
+  before_action :get_kitten, only: [:show, :update, :edit, :destroy]
+
   def index
-    @Kittens = Kitten.all
+    @kittens = Kitten.all
     respond_to do | format |
       format.html
-      format.json { render :json => @kittens }
+      format.json { render json: @kittens }
     end
   end
 
   def create
-    @Kitten = Kitten.new(kitten_params)
+    @kitten = Kitten.new(kitten_params)
     if @kitten.save
       flash[:success] = 'Your account is registered.'
       redirect_to root_url
     else
-      render new_path
+      render 'new'
+    end
   end
 
   def new
@@ -21,33 +24,37 @@ class KittensController < ApplicationController
   end
 
   def edit
-    @kitten = Kitten.find_by(id: params[:id])
   end
 
   def show
-    @kitten = Kitten.find_by(id: params[id])
     respond_to do | format |
       format.html
-      format.json { render :json => @kitten }
+      format.json { render json: @kitten }
     end
   end
 
   def update
-    @Kitten = Kitten.find_by(id: params[:id])
+    @Kitten = Kitten.find_by(kitten_params)
     if @kitten.update_attributes(kitten_params)
       flash[:success] = "Your acccount is updated."
       redirect_to root_url
     else
-      render new_path
+      render 'edit'
+    end
   end
 
   def destroy
     Kitten.find(params[:id]).destroy
     flash[:success] = "Your kitty has veen deleted"
-    redirect_to kittens_path
+    redirect_to root_url
   end
 
 private
+
+  def get_kitten
+    @kitten = Kitten.find(params[:id])
+  end
+
   def kitten_params
     params.require(:kitten).permit(:name, :age, :cuteness, :softness)
   end

@@ -1,6 +1,18 @@
-<% form_for @kittens do | f | %>
-<h2><%= f.name %></h2>
-<p>age: <%= f.input :age %> </p>
-<p>cuteness: <%= f.input :cuteness %> </p>
-<p>softness: <%= f.input :softness %> </p>
-<%= f.button :submit, 'salvar' %>
+<%= simple_form_for @kitten do |f| %>
+    <% if @kitten.errors.any? %>
+        <ol>
+            <% @kitten.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+        </ol>
+    <% end %>
+
+    <%= f.input :name %>
+    <%= f.input :age, collection: (1..20) %>
+
+    <%= f.input :cuteness, collection: (1..10) %>
+
+    <%= f.input :softness, collection:  (1..10) %>
+
+    <%= f.submit "Submit" %>
+<% end %>
